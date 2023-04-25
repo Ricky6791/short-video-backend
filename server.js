@@ -1,6 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import Videos from './dbmodel.js'
+import Cors from 'cors'
 
 //app config
 const app = express()
@@ -10,11 +11,12 @@ const connection_url = 'mongodb+srv://ricky6791:vanessa1@cluster0.q10bckd.mongod
 
 
 //middlewares
+app.use(express.json())
+app.use(Cors())
 
 //DB config
 mongoose.connect(connection_url, {
     useNewUrlParser: true,
-    useCreateIndex: true,
     useUnifiedTopology: true
 })
 
