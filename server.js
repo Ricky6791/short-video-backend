@@ -23,14 +23,14 @@ mongoose.connect(connection_url, {
 //api endpoints
 app.get('/', (req, res) => res.status(200).send('hello world'))
 
-app.post('/v2/posts', (req, res) => {
-    const dbVideos = req.body
-    Videos.create(dbVideos, (err, data) => {
-        if(err)
-           res.status(500).send(err)
-        else
-            res.status(201).send(data)
-    })
+app.post('/v2/posts', async(req, res) => {
+    try{
+        const newVideo = new Videos(req.body)
+        const savedVideo = await newVideo.save()
+        res.status(201).send(savedVideo)
+    }catch(err){
+        res.status(500).send(err)
+    }
 })
 
 app.get('/v2/posts', (req, res) => {
