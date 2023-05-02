@@ -2,7 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import Videos from './dbmodel.js'
 import Cors from 'cors'
-import User from './Users.js';
+var User = require ('./Users');
 
 import bodypasrser from 'body-parser';
 import passport from 'passport';
