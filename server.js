@@ -34,13 +34,12 @@ app.post('/v2/posts', async(req, res) => {
 })
 
 app.get('/v2/posts', async(req, res) => {
-    Videos.find((err, data) => {
-        if(err){
-            res.status(500).send(err)
-        }else{
-            res.status(200).send(data)
-        }
-    })
+    try{
+        const data = await Videos.find()
+        res.status(200).send(data)
+    }catch (error) {
+        res.status(500).send(error)
+    }
 })
 
 //listener
