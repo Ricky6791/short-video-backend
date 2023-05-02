@@ -29,4 +29,6 @@ const strategy = new Strategy(options, (jwtpayload, done) => {
 
 passport.use(strategy);
 
-export default passport.authenticate('jwt', {session: false});
+export default {
+    isAuthenticated: passport.authenticate('jwt', {session: false}),
+}

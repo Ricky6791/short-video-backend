@@ -52,7 +52,8 @@ mongoose.connect(connection_url, {
 })
 
 //api endpoints
-app.post('/signup', function(req, res) {
+router.route('/signup')
+.post(function(req, res) {
     if (!req.body.username || !req.body.password) {
         res.json({success: false, msg: 'Please include both username and password to signup.'})
     } else {
@@ -73,8 +74,8 @@ app.post('/signup', function(req, res) {
         });
     }
 });
-
-app.post('/signin', function (req, res) {
+router.route('/signin')
+.post(function (req, res) {
     var userNew = new User();
     userNew.username = req.body.username;
     userNew.password = req.body.password;
@@ -98,8 +99,8 @@ app.post('/signin', function (req, res) {
 });
 
 app.get('/', (req, res) => res.status(200).send('hello world'))
-
-app.post('/v2/posts', async(req, res) => {
+router.route('/v2/posts')
+.post(async(req, res) => {
     try{
         const newVideo = new Videos(req.body)
         const savedVideo = await newVideo.save()
