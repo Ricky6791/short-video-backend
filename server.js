@@ -2,17 +2,15 @@ import express from 'express'
 import mongoose from 'mongoose'
 import Videos from './dbmodel.js'
 import Cors from 'cors'
-var User = require ('./Users');
-
-import bodypasrser from 'body-parser';
-import passport from 'passport';
-import jwt from 'jsonwebtoken';
-
+import bodypasrser from 'body-parser'
+import User from './Users.js'
+import jwt from 'jsonwebtoken'
+import passport from 'passport'
 
 //app config
 const app = express()
 const port = process.env.PORT || 9000
-const connection_url = 'mongodb+srv://ricky6791:vanessa1@cluster0.q10bckd.mongodb.net/shortVideoDB?retryWrites=true&w=majority'
+const connection_url = 'mongodb+srv://ricky6791:CUDenver@cluster0.q10bckd.mongodb.net/shortVideoDB?retryWrites=true&w=majority'
 
 
 

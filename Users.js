@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 var Schema = mongoose.Schema;
-var bcrypt = require('bcrypt-nodejs');
+import bcrypt from 'bcrypt-nodejs';
 
 mongoose.Promise = global.Promise;
 
@@ -45,3 +45,5 @@ UserSchema.methods.comparePassword = function (password, callback) {
 
 //return the model to server
 module.exports = mongoose.model('User', UserSchema);
+
+export default User;
