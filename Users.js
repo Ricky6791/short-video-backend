@@ -44,6 +44,6 @@ UserSchema.methods.comparePassword = function (password, callback) {
 }
 
 //return the model to server
-module.exports = mongoose.model('User', UserSchema);
+const User = mongoose.model('User', UserSchema);
 
 export default User;
