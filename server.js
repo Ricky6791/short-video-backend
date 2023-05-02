@@ -110,7 +110,8 @@ router.route('/v2/posts')
     }
 })
 router.route('/v2/posts')
-.get(authJWTController.isAuthenticated, async(req, res) => {
+//.get(authJWTController.isAuthenticated, async(req, res) => {
+.get(async(req, res) => {
     try{
         const data = await Videos.find()
         res.status(200).send(data)
@@ -119,5 +120,6 @@ router.route('/v2/posts')
     }
 })
 
+app.use('/', router);
 //listener
 app.listen(port, () => console.log(`listening on localhost: ${port}`))
