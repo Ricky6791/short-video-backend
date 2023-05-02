@@ -33,7 +33,7 @@ app.post('/v2/posts', async(req, res) => {
     }
 })
 
-app.get('/v2/posts', (req, res) => {
+app.get('/v2/posts', async(req, res) => {
     Videos.find((err, data) => {
         if(err){
             res.status(500).send(err)
