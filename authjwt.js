@@ -1,21 +1,32 @@
-var passport = require('passport');
-var JwtStrategy = require('passport-jwt').Strategy;
-var ExtractJwt = require('passport-jwt').ExtractJwt;
-var User = require('./Users');
+import passport from 'passport';
+import passportJWT from 'passport-jwt';
+import dotenv from 'dotenv';
+import User from './Users.js';
 
-var opts = {};
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme("jwt");
-opts.secretOrKey = process.env.SECRET_KEY;
+dotenv.config();
 
-passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-    User.findById(jwt_payload.id, function (err, user) {
-        if (user) {
-            done(null, user);
-        } else {
-            done(null, false);
+const ExtractJWT = passportJWT.ExtractJwt;
+const Strategy = passportJWT.Strategy;
+
+const options = {
+    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+    secretOrKey: process.env.UNIQUE_KEY
+};
+
+const strategy = new Strategy(options, (jwtpayload, done) => {
+    User.findone({id: jwtpayload.id}, (err, user) => {
+        if (err) {
+            return done(err, false);
         }
-    });
-}));
+        if (user) {
+            return done(null, user)
+        } else {
+            return done(null, false);
+        }
+    }
+    )
+})
 
-exports.isAuthenticated = passport.authenticate('jwt', { session : false });
-exports.secret = opts.secretOrKey ;
+passport.use(strategy);
+
+export default passport.authenticate('jwt', {session: false});

@@ -6,9 +6,12 @@ import bodypasrser from 'body-parser'
 import User from './Users.js'
 import jwt from 'jsonwebtoken'
 import passport from 'passport'
+import rp from 'request-promise'
+import crypto from 'crypto'
+import authJWTController from './authjwt.js'
 
 //app config
-const app = express()
+var app = express()
 const port = process.env.PORT || 9000
 const connection_url = 'mongodb+srv://ricky6791:CUDenver@cluster0.q10bckd.mongodb.net/shortVideoDB?retryWrites=true&w=majority'
 
@@ -20,6 +23,26 @@ app.use(Cors())
 app.use(bodypasrser.json());
 app.use(bodypasrser.urlencoded({extended: false}));
 app.use(passport.initialize());
+
+var router = express.Router();
+
+function getJSONObjectForVideoRequirement(req) {
+    var json = {
+        headers: "No headers",
+        key: process.env.UNIQUE_KEY,
+        body: "No body"
+    };
+
+    if (req.body != null) {
+        json.body = req.body;
+    }
+
+    if (req.headers != null) {
+        json.headers = req.headers;
+    }
+
+    return json;
+}
 
 
 //DB config
@@ -85,8 +108,8 @@ app.post('/v2/posts', async(req, res) => {
         res.status(500).send(err)
     }
 })
-
-app.get('/v2/posts', async(req, res) => {
+router.route('/v2/posts')
+.get(authJWTController.isAuthenticated, async(req, res) => {
     try{
         const data = await Videos.find()
         res.status(200).send(data)
